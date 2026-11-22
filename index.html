@@ -249,7 +249,7 @@ a{color:#9cc4ff}
   function nowLocal() { var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); }
   var todayStr = function () { return nowLocal().slice(0, 10); };
   var hm = function (at) { return at ? at.slice(11, 16) : ''; };
-  var money = function (c) { return Math.round(c / 100).toLocaleString('en-US').replace(/,/g, ' ') + ' ' + (PKG.currency || 'دج'); };
+  var money = function (c) { return '\u2066' + Math.round(c / 100).toLocaleString('en-US').replace(/,/g, ' ') + '\u2069 ' + (PKG.currency || 'دج'); };
   var moneyNum = function (c) { return Math.round(c / 100).toLocaleString('en-US').replace(/,/g, ' '); };
   function dmy(s) { if (!s) return ''; var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(s); return m ? m[3] + '/' + m[2] + '/' + m[1] : s; }
   function age(b) { if (!b) return ''; var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(b); if (!m) return ''; var d = new Date(), a = d.getFullYear() - +m[1]; if (d.getMonth() + 1 < +m[2] || (d.getMonth() + 1 === +m[2] && d.getDate() < +m[3])) a--; return a >= 0 && a < 100 ? a + ' سنة' : ''; }
