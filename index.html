@@ -536,7 +536,7 @@ a{color:#9cc4ff}
       var c = 0; if (f[0]) for (var i = 0; i < base.length; i++) if (payOk(base[i], f[0])) c++;
       UI.fchips.appendChild(h('button', { class: 'chip f' + (view.pay === f[0] ? ' on' : ''), onclick: function () { view.pay = f[0]; render(); } }, f[1], f[0] ? h('small', null, c) : null));
     });
-    clear(UI.qa).appendChild(h('button', { class: 'btn', onclick: function () { guestSheet(null); } }, ic('user'), 'زائر')); UI.qa.appendChild(h('button', { class: 'btn', onclick: function () { incidentSheet(null); } }, ic('warn'), 'حادثة')); UI.qa.appendChild(h('button', { class: 'btn' + (view.fo || view.pay ? ' pri' : ''), id: 'ftoggle', onclick: function () { view.fo = !(view.fo || view.pay); if (!view.fo) view.pay = ''; render(); } }, 'تصفية ' + (view.fo || view.pay ? '▴' : '▾')));
+    clear(UI.qa).appendChild(h('button', { class: 'btn', onclick: function () { guestSheet(null); } }, ic('user'), 'زائر')); UI.qa.appendChild(h('button', { class: 'btn' + (view.fo || view.pay ? ' pri' : ''), id: 'ftoggle', onclick: function () { view.fo = !(view.fo || view.pay); if (!view.fo) view.pay = ''; render(); } }, 'تصفية ' + (view.fo || view.pay ? '▴' : '▾')));
     var tile = function (cls, key, n, label) { return h('button', { class: 'stat ' + cls + (view.status === key ? ' act' : ''), onclick: function () { view.status = view.status === key ? '' : key; render(); } }, h('b', null, n), label); };
     renderTop(h('div', { class: 'stats' }, tile('in', 'in', inside, 'بالداخل'), tile('out', 'out', left, 'غادروا'), tile('no', 'no', noEntry, 'لم يدخلوا')));
     var frag = document.createDocumentFragment();
@@ -653,7 +653,7 @@ a{color:#9cc4ff}
       h('div', { class: 'grp' }, h('div', { class: 'kv' },
         h('span', null, 'الجهاز'), h('div', null, ST.device || '—'),
         h('span', null, 'بيانات المنخرطين'), h('div', null, dmy((PKG.created_at || '').slice(0, 10)) + ' · ' + PKG.members.length + ' منخرطًا'),
-        h('span', null, 'تسجيلات على الجهاز'), h('div', null, D.events.length + ' دخول/خروج · ' + D.co.length + ' حضور مدرب · ' + D.incidents.length + ' حادثة · ' + D.kit.length + ' بذلة · ' + D.guests.length + ' زائر'),
+        h('span', null, 'تسجيلات على الجهاز'), h('div', null, D.events.length + ' دخول/خروج · ' + D.co.length + ' حضور مدرب · ' + D.kit.length + ' بذلة · ' + D.guests.length + ' زائر'),
         h('span', null, 'المزامنة'), h('div', null, SY.on ? (SY.online ? 'مباشرة ✓' : 'بلا اتصال حاليًا') + (ST.outbox.length ? ' · ' + ST.outbox.length + ' بانتظار الإرسال' : '') : 'غير مفعّلة'),
         h('span', null, 'لم تُصدَّر بعد'), h('div', null, String(pending())),
         h('span', null, 'آخر تصدير'), h('div', null, ST.lastExportAt ? dmy(ST.lastExportAt.slice(0, 10)) + ' ' + hm(ST.lastExportAt) : 'لم يُصدَّر'))),
@@ -727,22 +727,10 @@ a{color:#9cc4ff}
           day ? h('div', { class: 'st ' + (day.last === 'in' ? 'in' : 'out'), style: 'display:inline-block;margin-top:8px' }, day.last === 'in' ? 'بالداخل منذ ' + hm(day.first_in) : 'غادر ' + hm(day.last_out)) : h('div', { class: 'st', style: 'display:inline-block;margin-top:8px' }, 'لم يدخل اليوم'))),
       h('div', { class: 'acts' }, h('button', { class: 'btn ok', onclick: function () { if (mark(m, e, 'in')) ov.remove(); } }, ic('in'), 'دخل'), h('button', { class: 'btn out', onclick: function () { if (mark(m, e, 'out')) ov.remove(); } }, ic('out'), 'خرج')),
       debtBanner(m, e),
-      tabsEl, panes[view.tab],
-      h('div', { style: 'margin-top:12px' }, h('button', { class: 'btn bad blk', onclick: function () { ov.remove(); incidentSheet(r); } }, '⚠ تسجيل حادثة لهذا المنخرط'))));
+      tabsEl, panes[view.tab]));
     return ov;
   }
 
-  /* ---------- الحوادث ---------- */
-  function incidentSheet(r) {
-    var kind = h('select', null, [['lost_child', 'ضياع طفل'], ['injury', 'إصابة'], ['late_pickup', 'تأخر استلام'], ['behavior', 'سلوك'], ['other', 'أخرى']].map(function (k) { return h('option', { value: k[0] }, k[1]); }));
-    var note = h('textarea', { rows: 4, placeholder: 'ماذا حدث؟ وماذا فُعل؟' });
-    var who = h('div', { class: 'mut', style: 'margin:6px 0' }, r ? 'المنخرط: ' + r.m.display_name : 'بلا منخرط محدد (المس منخرطًا ثم «تسجيل حادثة» لربطها به)');
-    var ov = sheet(h('div', null, h('h2', null, 'تسجيل حادثة'), who, kind, note, h('button', { class: 'btn pri blk', style: 'padding:14px;margin-top:6px', onclick: function () {
-      if (!note.value.trim()) { toast('اكتب وصفًا للحادثة'); return; }
-      var iu = newUid('i'); put('inc', iu, { uid: iu, at: nowLocal(), kind: kind.value, note: note.value.trim(), person_id: r ? r.m.person_id : null, person_name: r ? r.m.display_name : null, squad_id: r ? r.e.squad_id : (view.squad ? +view.squad : null), squad_name: r ? sqName(r.e.squad_id) : (view.squad ? sqName(+view.squad) : null) });
-      ov.remove(); toast('سُجّلت الحادثة'); render();
-    } }, 'حفظ')));
-  }
 
 
   /* ---------- المزامنة الفورية (Firebase RTDB، مشفّرة من طرف إلى طرف) ---------- */
@@ -817,14 +805,14 @@ a{color:#9cc4ff}
 
   /* ---------- تصدير الحضور (.gwatt مشفّر بمفتاح البرنامج) ---------- */
   function exportAtt() {
-    if (!D.events.length && !D.incidents.length && !D.kit.length && !D.guests.length && !D.co.length) { toast('لا توجد تسجيلات للتصدير'); return; }
+    if (!D.events.length && !D.kit.length && !D.guests.length && !D.co.length) { toast('لا توجد تسجيلات للتصدير'); return; }
     if (!(window.crypto && crypto.subtle)) { toast('هذا المتصفح لا يدعم التصدير المشفّر'); return; }
-    var doc = { format: 'gwatt', version: 1, device: ST.device, exported_at: nowLocal(), package_created_at: PKG.created_at, events: D.events, incidents: D.incidents, kit_events: D.kit, coach_sessions: D.co, guests: D.guests.map(function (g) { return { uid: g.uid, at: g.at, out_at: g.out_at, name: g.name, phone: g.phone, note: g.note, squad_id: g.squad_id, squad_name: g.squad_name }; }), sessions: D.sessions };
-    var iv = crypto.getRandomValues(new Uint8Array(12)), nE = D.events.length, nI = D.incidents.length, nK = D.kit.length;
+    var doc = { format: 'gwatt', version: 1, device: ST.device, exported_at: nowLocal(), package_created_at: PKG.created_at, events: D.events, kit_events: D.kit, coach_sessions: D.co, guests: D.guests.map(function (g) { return { uid: g.uid, at: g.at, out_at: g.out_at, name: g.name, phone: g.phone, note: g.note, squad_id: g.squad_id, squad_name: g.squad_name }; }), sessions: D.sessions };
+    var iv = crypto.getRandomValues(new Uint8Array(12)), nE = D.events.length, nK = D.kit.length;
     crypto.subtle.importKey('raw', hex(EX_KEY), 'AES-GCM', false, ['encrypt']).then(function (k) { return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, k, new TextEncoder().encode(JSON.stringify(doc))); }).then(function (ct) {
       var head = new TextEncoder().encode('GWA1'), out = new Uint8Array(4 + 12 + ct.byteLength); out.set(head, 0); out.set(iv, 4); out.set(new Uint8Array(ct), 16);
       var name = 'GoldenWolf-' + todayStr() + '-' + nowLocal().slice(11, 16).replace(':', '') + '.gwatt';
-      function done() { for (var k in ST.store) ST.store[k].ex = ST.store[k].r; ST.lastExportAt = nowLocal(); save(); render(); toast('تم إنشاء الملف: ' + nE + ' حضور، ' + nI + ' حادثة، ' + nK + ' بذلة'); }
+      function done() { for (var k in ST.store) ST.store[k].ex = ST.store[k].r; ST.lastExportAt = nowLocal(); save(); render(); toast('تم إنشاء الملف: ' + nE + ' حضور، ' + nK + ' بذلة'); }
       function download() { var blob = new Blob([out], { type: 'application/octet-stream' }), a = h('a', { href: URL.createObjectURL(blob), download: name }); document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); }, 500); done(); }
       var file = null; try { file = new File([out], name, { type: 'application/octet-stream' }); } catch (e) { /* */ }
       if (file && navigator.canShare && navigator.share && navigator.canShare({ files: [file] })) {
