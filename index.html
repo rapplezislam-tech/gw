@@ -49,6 +49,9 @@ input.search{width:100%;background:var(--surface);border:1px solid var(--line);b
 input.search:focus{border-color:var(--gold2)}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:10px 0 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .chips::-webkit-scrollbar{display:none}
+.admseg{display:flex;gap:0;margin:10px 0 2px;border:1px solid var(--line);border-radius:12px;overflow:hidden}.admseg button{flex:1;padding:10px 4px;font-size:15px;background:var(--surface);color:inherit;border:0;border-inline-start:1px solid var(--line)}.admseg button:first-child{border-inline-start:0}.admseg button.on{background:var(--gold,#c19444);color:#000;font-weight:700}.admseg small{opacity:.8;margin-inline-start:4px}
+.sumbar{margin:10px 0;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:15px;line-height:1.7}.sumbar b{color:var(--gold,#c19444)}
+.rn{flex:0 0 auto;min-width:22px;text-align:center;font-size:13px;opacity:.6}
 .chip{flex:0 0 auto;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:8px 15px;white-space:nowrap;font-size:15px}
 .chip.on{background:var(--gold);color:#1a1405;border-color:var(--gold);font-weight:700}
 /* ---------- القائمة ---------- */
@@ -223,7 +226,7 @@ a{color:#9cc4ff}
   var D = { events: [], incidents: [], kit: [], guests: [], co: [], coMap: {}, sessions: {}, v: 0 }, UI = null, dragging = false, deferred = false, SQM = null, BK = {}, KC = { v: -1, by: {} }, SQC = {}, DC = null;
   var SY = { on: false, online: false, busy: false, base: '', key: null, es: [], day: '', retry: 0, rq: 0 };
   var COLL = (function () { try { return new Intl.Collator('ar'); } catch (e) { return { compare: function (a, b) { return a < b ? -1 : a > b ? 1 : 0; } }; } })();
-  var view = { squad: '', q: '', status: '', pay: '', tab: 'info', page: 'att', cday: '', dsq: '' };
+  var view = { adm: 'in', squad: '', q: '', status: '', pay: '', tab: 'info', page: 'att', cday: '', dsq: '' };
   var WD = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
   try { var th = localStorage.getItem('gw.theme'); if (th) document.documentElement.setAttribute('data-theme', th); } catch (e) { /* */ }
   var ICONS = {
@@ -378,7 +381,7 @@ a{color:#9cc4ff}
     load();
     PKG.members.forEach(function (m) { if (m.photo) { m.photoUrl = blobUrl(m.photo); m.photo = null; } });
     PKG.members.sort(function (a, b) { return COLL.compare(a.display_name, b.display_name); });
-    PKG.members.forEach(function (m) { m.enrollments.forEach(function (e) { if (e.is_current && e.squad_id) SQC[e.squad_id] = (SQC[e.squad_id] || 0) + 1; }); });
+    PKG.members.forEach(function (m) { m.enrollments.forEach(function (e) { if (e.is_current && e.squad_id) { var o = SQC[e.squad_id] || (SQC[e.squad_id] = { in: 0, reserve: 0, wait: 0 }); o[st(e)]++; } }); });
     var sq = (PKG.squads || []).filter(function (s) { return PKG.members.some(function (m) { return m.enrollments.some(function (e) { return e.is_current && e.squad_id === s.id; }); }); });
     view.squad = sq.length ? String(sq[0].id) : '';
     UI = null; if (PKG.members.length > 300) document.body.classList.add('big');
@@ -393,6 +396,10 @@ a{color:#9cc4ff}
     D.events.forEach(function (e) { if (e.at.slice(0, 10) !== d) return; var k = e.person_id + ':' + (e.squad_id || 0); var o = by[k] || (by[k] = { first_in: null, last_out: null, last: null }); if (e.kind === 'in' && !o.first_in) o.first_in = e.at; if (e.kind === 'out') o.last_out = e.at; o.last = e.kind; });
     return by;
   }
+  function st(e) { return e.state || 'in'; }
+  function isAct(e) { return e.is_current && st(e) === 'in'; }
+  function sqCap(id) { var c = null; (PKG.squads || []).forEach(function (s) { if (s.id === id) c = s.capacity || null; }); return c; }
+  var ADM = { in: 'المقبولون', reserve: 'الاحتياط', wait: 'في الانتظار' };
   function sqName(id) { if (!SQM) { SQM = {}; (PKG.squads || []).forEach(function (s) { SQM[s.id] = s.name; }); } return SQM[id] || ''; }
   function payOk(e, f) { if (!f) return true; if (f === 'rest') return e.fee > 0 && e.remaining > 0; if (f === 'none') return e.fee > 0 && e.paid <= 0; if (f === 'paid') return e.fee > 0 && e.remaining <= 0; if (f === 'nokit') { var k = kitSummary(e); return !!k && k.n < k.total; } return true; }
   function rows(opts) {
@@ -400,7 +407,7 @@ a{color:#9cc4ff}
     var out = [], q = view.q.trim();
     PKG.members.forEach(function (m) {
       m.enrollments.forEach(function (e) {
-        if (!e.is_current) return;
+        if (!e.is_current || st(e) !== view.adm) return;
         if (view.squad && String(e.squad_id) !== view.squad) return;
         if (q && (m._s || (m._s = m.display_name + ' ' + m.full_name)).indexOf(q) < 0) return;
         if (!opts.noPay && !payOk(e, view.pay)) return;
@@ -452,7 +459,13 @@ a{color:#9cc4ff}
   function setSize(m, e, sid) { kitEv(m, e, 'size', { size_id: sid, size_name: sid ? sizeName(sid) : '' }); buzz(); }
 
   /* ---------- السحب ---------- */
-  function swipeRow(r, ds, first) {
+  function infoRow(r, n) {
+    var img = r.m.photoUrl ? h('img', { class: 'ph', src: r.m.photoUrl, alt: '', draggable: 'false', decoding: 'async' }) : h('div', { class: 'ph noimg' }, initials(r.m.display_name) || '👤');
+    var card = h('div', { class: 'person', onclick: function () { details(r); } }, h('span', { class: 'rn' }, n), h('div', { class: 'av' }, img),
+      h('div', { class: 'nm' }, h('b', null, r.m.display_name), h('small', null, [age(r.m.birth_date), view.squad ? '' : sqName(r.e.squad_id), r.m.phone || ''].filter(Boolean).join(' · ')), h('div', null, h('span', { class: 'st' }, ADM[st(r.e)] + (r.m.registered_at ? ' · سُجّل ' + dmy(r.m.registered_at) : '')), subChip(r.e))));
+    return h('div', { class: 'swrap' }, card);
+  }
+  function swipeRow(r, ds, first, num) {
     var wrap = h('div', { class: 'swrap' });
     var bg = h('div', { class: 'bg' }, h('span', null, ''), h('span', null, ''));
     var key = r.m.person_id + ':' + (r.e.squad_id || 0), day = ds[key];
@@ -461,7 +474,7 @@ a{color:#9cc4ff}
     var ring = h('div', { class: 'av' + (day ? (day.last === 'in' ? ' in' : ' out') : '') }, img);
     var inside = day && day.last === 'in';
     var go = h('button', { class: 'go ' + (inside ? 'out' : 'in'), 'aria-label': inside ? 'تسجيل خروج' : 'تسجيل دخول', onclick: function (ev) { ev.stopPropagation(); mark(r.m, r.e, inside ? 'out' : 'in', 'manual'); } }, inside ? 'خروج' : 'دخول');
-    var card = h('div', { class: 'person' + (flashKey === key ? ' flash' : '') + (first && !lsGet('gw.hint') ? ' peek' : '') }, ring, h('div', { class: 'nm' }, h('b', null, r.m.display_name), h('small', null, [age(r.m.birth_date), view.squad ? '' : sqName(r.e.squad_id)].filter(Boolean).join(' · ')), h('div', null, state, day ? h('button', { class: 'xb', 'aria-label': 'إلغاء آخر تسجيل', title: 'إلغاء آخر تسجيل', onclick: function (ev) { ev.stopPropagation(); var l = lastEvToday(r.m, r.e); if (l) cancelEv(l); } }, ic('x')) : null), h('div', null, subChip(r.e), kitChip(r.e))), go);
+    var card = h('div', { class: 'person' + (flashKey === key ? ' flash' : '') + (first && !lsGet('gw.hint') ? ' peek' : '') }, h('span', { class: 'rn' }, num || ''), ring, h('div', { class: 'nm' }, h('b', null, r.m.display_name), h('small', null, [age(r.m.birth_date), view.squad ? '' : sqName(r.e.squad_id)].filter(Boolean).join(' · ')), h('div', null, state, day ? h('button', { class: 'xb', 'aria-label': 'إلغاء آخر تسجيل', title: 'إلغاء آخر تسجيل', onclick: function (ev) { ev.stopPropagation(); var l = lastEvToday(r.m, r.e); if (l) cancelEv(l); } }, ic('x')) : null), h('div', null, subChip(r.e), kitChip(r.e))), go);
     wrap.appendChild(bg); wrap.appendChild(card);
     var sx = 0, sy = 0, dx = 0, drag = false, moved = false, id = null;
     card.addEventListener('pointerdown', function (ev) { if (ev.button > 0 || (ev.target.closest && ev.target.closest('.go'))) return; sx = ev.clientX; sy = ev.clientY; dx = 0; drag = true; moved = false; id = ev.pointerId; card.classList.remove('peek'); });
@@ -486,17 +499,17 @@ a{color:#9cc4ff}
   function pending() { var n = 0; for (var k in ST.store) { var r = ST.store[k]; if (r.dev === ST.device && r.ex !== r.r) n++; } return n; }
   function guestsToday() { var d = todayStr(); return D.guests.filter(function (g) { return g.at.slice(0, 10) === d; }); }
   function mount() {
-    app.innerHTML = ''; UI = { top: h('div', { class: 'top' }), filters: h('div', { class: 'filters' }), warn: h('div'), list: h('div', { id: 'list' }), guests: h('div'), nav: h('div', { class: 'nav' }), chips: h('div', { class: 'chips' }), fchips: h('div', { class: 'chips' }) };
+    app.innerHTML = ''; UI = { top: h('div', { class: 'top' }), filters: h('div', { class: 'filters' }), warn: h('div'), list: h('div', { id: 'list' }), guests: h('div'), nav: h('div', { class: 'nav' }), adm: h('div', { class: 'admseg' }), chips: h('div', { class: 'chips' }), fchips: h('div', { class: 'chips' }) };
     UI.q = h('input', { class: 'search', type: 'search', placeholder: 'ابحث بالاسم…', autocomplete: 'off' });
     var qt = 0, delay = PKG.members.length > 150 ? 140 : 0;
     UI.q.addEventListener('input', function () { clearTimeout(qt); if (!delay) { view.q = UI.q.value; render(); } else qt = setTimeout(function () { view.q = UI.q.value; render(); }, delay); });
     UI.srch = h('div', { class: 'srch' }, ic('search'), UI.q); UI.flbl = h('div', { class: 'lbl' }, 'تصفية حسب الاشتراك والبذلة'); UI.qa = h('div', { class: 'qa' });
-    UI.filters.appendChild(UI.srch); UI.filters.appendChild(UI.chips); UI.filters.appendChild(UI.flbl); UI.filters.appendChild(UI.fchips); UI.filters.appendChild(UI.qa);
+    UI.filters.appendChild(UI.srch); UI.filters.appendChild(UI.adm); UI.filters.appendChild(UI.chips); UI.filters.appendChild(UI.flbl); UI.filters.appendChild(UI.fchips); UI.filters.appendChild(UI.qa);
     [UI.top, UI.filters, UI.warn, UI.list, UI.guests, UI.nav].forEach(function (n) { app.appendChild(n); });
   }
   function squadChips(allLabel) {
     clear(UI.chips).appendChild(h('button', { class: 'chip' + (view.squad === '' ? ' on' : ''), onclick: function () { view.squad = ''; render(); } }, allLabel));
-    (PKG.squads || []).forEach(function (s) { var n = SQC[s.id]; if (!n) return; UI.chips.appendChild(h('button', { class: 'chip' + (view.squad === String(s.id) ? ' on' : ''), onclick: function () { view.squad = String(s.id); render(); } }, s.name + ' (' + n + ')')); });
+    (PKG.squads || []).forEach(function (s) { var o = SQC[s.id]; if (!o) return; var n = o[view.adm]; var cap = view.adm === 'in' && s.capacity ? '/' + s.capacity : ''; UI.chips.appendChild(h('button', { class: 'chip' + (view.squad === String(s.id) ? ' on' : ''), onclick: function () { view.squad = String(s.id); render(); } }, s.name + ' (' + n + cap + ')')); });
   }
   function renderTop(stats) {
     var clubName = (PKG.club && (PKG.club.name_ar || PKG.club.name)) || 'Golden Wolf';
@@ -530,7 +543,11 @@ a{color:#9cc4ff}
     var noEntry = all.length - inside - left;
     var list = !view.status ? all : all.filter(function (r) { var d = ds[r.m.person_id + ':' + (r.e.squad_id || 0)]; return view.status === 'in' ? (d && d.last === 'in') : view.status === 'out' ? (d && d.last === 'out') : !d; });
     squadChips('الكل');
-    var base = []; PKG.members.forEach(function (m) { m.enrollments.forEach(function (e) { if (e.is_current && (!view.squad || String(e.squad_id) === view.squad)) base.push(e); }); });
+    var cnt = { in: 0, reserve: 0, wait: 0 }; (PKG.squads || []).forEach(function (s) { var o = SQC[s.id]; if (o && (!view.squad || String(s.id) === view.squad)) { cnt.in += o.in; cnt.reserve += o.reserve; cnt.wait += o.wait; } });
+    clear(UI.adm); UI.adm.style.display = cnt.reserve + cnt.wait ? '' : 'none';
+    if (!(cnt.reserve + cnt.wait) && view.adm !== 'in') { view.adm = 'in'; return render(); }
+    ['in', 'reserve', 'wait'].forEach(function (k) { UI.adm.appendChild(h('button', { class: view.adm === k ? 'on' : '', onclick: function () { view.adm = k; view.status = ''; render(); } }, ADM[k], h('small', null, cnt[k]))); });
+    var base = []; PKG.members.forEach(function (m) { m.enrollments.forEach(function (e) { if (e.is_current && st(e) === view.adm && (!view.squad || String(e.squad_id) === view.squad)) base.push(e); }); });
     clear(UI.fchips);
     [['', 'الكل'], ['rest', 'عليهم متبقٍّ'], ['none', 'لم يدفعوا شيئًا'], ['paid', 'مسدَّدون'], ['nokit', 'ينقصهم صنف بذلة']].forEach(function (f) {
       var c = 0; if (f[0]) for (var i = 0; i < base.length; i++) if (payOk(base[i], f[0])) c++;
@@ -538,10 +555,12 @@ a{color:#9cc4ff}
     });
     clear(UI.qa).appendChild(h('button', { class: 'btn', onclick: function () { guestSheet(null); } }, ic('user'), 'زائر')); UI.qa.appendChild(h('button', { class: 'btn' + (view.fo || view.pay ? ' pri' : ''), id: 'ftoggle', onclick: function () { view.fo = !(view.fo || view.pay); if (!view.fo) view.pay = ''; render(); } }, 'تصفية ' + (view.fo || view.pay ? '▴' : '▾')));
     var tile = function (cls, key, n, label) { return h('button', { class: 'stat ' + cls + (view.status === key ? ' act' : ''), onclick: function () { view.status = view.status === key ? '' : key; render(); } }, h('b', null, n), label); };
-    renderTop(h('div', { class: 'stats' }, tile('in', 'in', inside, 'بالداخل'), tile('out', 'out', left, 'غادروا'), tile('no', 'no', noEntry, 'لم يدخلوا')));
+    var capNow = view.squad ? sqCap(Number(view.squad)) : null;
+    if (view.adm === 'in') renderTop(h('div', { class: 'stats' }, tile('in', 'in', inside, 'بالداخل'), tile('out', 'out', left, 'غادروا'), tile('no', 'no', noEntry, 'لم يدخلوا')));
+    else renderTop(h('div', { class: 'sumbar' }, h('b', null, ADM[view.adm] + ': ' + all.length), capNow ? '  ·  سعة الفوج ' + capNow + ' · المقبولون ' + ((SQC[view.squad] || {}).in || 0) : '', h('div', { class: 'mut' }, view.adm === 'reserve' ? 'قائمة الاحتياط: يُقبلون أولًا إذا رُفعت السعة. للاطلاع فقط (لا تسجيل دخول).' : 'ينتظرون قرار الإدارة أو التحويل. للاطلاع فقط (لا تسجيل دخول).')));
     var frag = document.createDocumentFragment();
     if (!list.length) frag.appendChild(h('div', { class: 'empty' }, 'لا يوجد منخرطون في هذا الاختيار.'));
-    list.forEach(function (r, i) { frag.appendChild(swipeRow(r, ds, i === 0)); });
+    list.forEach(function (r, i) { frag.appendChild(view.adm === 'in' ? swipeRow(r, ds, i === 0, i + 1) : infoRow(r, i + 1)); });
     clear(UI.list).appendChild(frag);
     clear(UI.guests);
     var gs = guestsToday();
@@ -558,7 +577,7 @@ a{color:#9cc4ff}
     var key = PKG.created_at; if (DC && DC.k === key) return DC;
     var br = {}, tot = { rest: 0, n: 0, fee: 0, paid: 0, debtors: 0 };
     PKG.members.forEach(function (m) { m.enrollments.forEach(function (e) {
-      if (!e.is_current) return; var rest = e.fee > 0 ? Math.max(0, e.remaining) : 0;
+      if (!isAct(e)) return; var rest = e.fee > 0 ? Math.max(0, e.remaining) : 0;
       var b = br[e.branch_id] || (br[e.branch_id] = { name: e.branch, rest: 0, debtors: 0, fee: 0, paid: 0, sq: {} });
       var sid = e.squad_id || 0, q = b.sq[sid] || (b.sq[sid] = { id: sid, name: sid ? sqName(sid) : 'بلا فوج', rest: 0, debtors: 0, n: 0, fee: 0, paid: 0, list: [] });
       q.n++; q.fee += Math.max(0, e.fee); q.paid += e.fee > 0 ? Math.min(e.paid, e.fee) : 0; b.fee += Math.max(0, e.fee); b.paid += e.fee > 0 ? Math.min(e.paid, e.fee) : 0; tot.n++; tot.fee += Math.max(0, e.fee); tot.paid += e.fee > 0 ? Math.min(e.paid, e.fee) : 0;
@@ -669,7 +688,7 @@ a{color:#9cc4ff}
   function grp(title, body) { return h('div', { class: 'grp' }, h('h3', null, title), body); }
   function mEl(c) { return h('b', null, h('bdi', null, moneyNum(c)), h('i', null, PKG.currency || 'دج')); }
   function debtBanner(m, e) {
-    var tot = 0, parts = []; m.enrollments.forEach(function (x) { if (x.is_current && x.fee > 0 && x.remaining > 0) { tot += x.remaining; if (x.id !== e.id) parts.push(x.branch + ' — ' + sqName(x.squad_id) + ': ' + money(x.remaining)); } });
+    var tot = 0, parts = []; m.enrollments.forEach(function (x) { if (isAct(x) && x.fee > 0 && x.remaining > 0) { tot += x.remaining; if (x.id !== e.id) parts.push(x.branch + ' — ' + sqName(x.squad_id) + ': ' + money(x.remaining)); } });
     if (e.fee <= 0) return null;
     if (e.remaining <= 0 && !tot) return h('div', { class: 'dbn ok' }, 'مسدَّد بالكامل ✓');
     return h('div', { class: 'dbn rest' }, e.remaining > 0 ? 'المتبقي عليه: ' + money(e.remaining) + ' من ' + money(e.fee) : 'اشتراك هذا الفوج مسدَّد ✓', parts.length ? h('div', { style: 'font-size:13.5px' }, 'وعليه أيضًا — ' + parts.join('، ')) : null);
@@ -696,7 +715,7 @@ a{color:#9cc4ff}
         e.venue ? h('span', null, 'الملعب / المسبح') : null, e.venue ? h('div', null, e.venue) : null,
         h('span', null, 'الموسم'), h('div', null, e.season || '—'),
         h('span', null, 'تاريخ التسجيل'), h('div', null, dmy(m.registered_at) || '—'), h('span', null, 'بداية الاشتراك'), h('div', null, dmy(e.start_date) || '—'),
-        h('span', null, 'الحالة'), h('div', null, { active: 'نشط', suspended: 'موقوف', withdrawn: 'منسحب', archived: 'مؤرشف' }[e.status] || e.status),
+        h('span', null, 'القبول'), h('div', null, ADM[st(e)] + (sqCap(e.squad_id) ? ' (سعة الفوج ' + sqCap(e.squad_id) + ')' : '')), h('span', null, 'الحالة'), h('div', null, { active: 'نشط', suspended: 'موقوف', withdrawn: 'منسحب', archived: 'مؤرشف' }[e.status] || e.status),
         e.card_no ? h('span', null, 'رقم البطاقة') : null, e.card_no ? h('div', null, String(e.card_no)) : null,
         e.notes ? h('span', null, 'ملاحظات التسجيل') : null, e.notes ? h('div', null, e.notes) : null)),
       others.length ? h('div', { class: 'mut', style: 'margin-top:10px;font-size:14px' }, 'مسجَّل أيضًا في: ' + others.map(function (x) { return x.branch + ' — ' + sqName(x.squad_id); }).join('، ')) : null,
@@ -725,7 +744,7 @@ a{color:#9cc4ff}
       h('div', { class: 'hero' }, m.photoUrl ? h('img', { class: 'big', src: m.photoUrl, alt: '' }) : h('div', { class: 'big noimg' }, initials(m.display_name) || '👤'),
         h('div', { class: 'nm' }, h('h2', null, m.display_name), h('div', { class: 'mut', style: 'margin:4px 0 6px' }, e.branch + ' — ' + sqName(e.squad_id)), h('div', null, subChip(e), kitChip(e)),
           day ? h('div', { class: 'st ' + (day.last === 'in' ? 'in' : 'out'), style: 'display:inline-block;margin-top:8px' }, day.last === 'in' ? 'بالداخل منذ ' + hm(day.first_in) : 'غادر ' + hm(day.last_out)) : h('div', { class: 'st', style: 'display:inline-block;margin-top:8px' }, 'لم يدخل اليوم'))),
-      h('div', { class: 'acts' }, h('button', { class: 'btn ok', onclick: function () { if (mark(m, e, 'in')) ov.remove(); } }, ic('in'), 'دخل'), h('button', { class: 'btn out', onclick: function () { if (mark(m, e, 'out')) ov.remove(); } }, ic('out'), 'خرج')),
+      st(e) !== 'in' ? h('div', { class: 'warn', style: 'margin:8px 0' }, 'حالة القبول: ' + ADM[st(e)] + ' — لا يُسجَّل له دخول من الهاتف.') : h('div', { class: 'acts' }, h('button', { class: 'btn ok', onclick: function () { if (mark(m, e, 'in')) ov.remove(); } }, ic('in'), 'دخل'), h('button', { class: 'btn out', onclick: function () { if (mark(m, e, 'out')) ov.remove(); } }, ic('out'), 'خرج')),
       debtBanner(m, e),
       tabsEl, panes[view.tab]));
     return ov;
