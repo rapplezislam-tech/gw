@@ -139,7 +139,8 @@ input.search:focus{border-color:var(--gold2)}
 @keyframes fi{from{opacity:0}to{opacity:1}}
 .sheet{background:var(--bg);border:1px solid var(--line);border-bottom:0;border-radius:26px 26px 0 0;width:min(720px,100%);max-height:92vh;overflow:auto;-webkit-overflow-scrolling:touch;padding:10px 16px calc(16px + var(--sb));animation:su .22s ease-out}
 @keyframes su{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
-.grab{width:44px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 12px}
+.grab{width:56px;height:6px;border-radius:3px;background:var(--mut);opacity:.7;margin:0 auto 14px;position:relative}.grab:before{content:'';position:absolute;inset:-14px -40px}.sheet{overscroll-behavior:contain}
+.cap{display:inline-flex;align-items:center;gap:3px;border-radius:8px;padding:1px 8px;font-size:12.5px;margin-top:3px;margin-inline-start:4px;background:#0f3d4f;color:#7fdcff;font-weight:700;border:1px solid #1d7a9c}
 .sheet h2{margin:0;font-size:21px;line-height:1.3}
 .sheet h3{margin:0 0 8px;font-size:14px;color:var(--gold);font-weight:700;letter-spacing:.2px}
 .hero{display:flex;gap:14px;align-items:center}
@@ -280,7 +281,32 @@ a{color:#9cc4ff}
     opts = opts || {};
     var ov = h('div', { class: 'ov', onclick: function (e) { if (e.target === ov && !opts.modal) ov.remove(); } },
       h('div', { class: 'sheet' }, h('div', { class: 'grab' }), content, opts.noclose ? null : h('div', { style: 'margin-top:14px' }, h('button', { class: 'btn blk', onclick: function () { ov.remove(); } }, 'إغلاق'))));
+    var sh = ov.firstChild; if (!opts.modal) dragClose(ov, sh);
     document.body.appendChild(ov); return ov;
+  }
+  /* سحب النافذة للأسفل لإغلاقها: من المقبض أو من أي مكان إذا كان المحتوى في أعلاه */
+  function dragClose(ov, sh) {
+    var y0 = 0, dy = 0, on = false, t0 = 0, fromGrab = false;
+    sh.addEventListener('touchstart', function (e) {
+      if (e.touches.length !== 1) { on = false; return; }
+      y0 = e.touches[0].clientY; dy = 0; t0 = Date.now(); on = true;
+      var r = sh.getBoundingClientRect(); fromGrab = (y0 - r.top) < 64;
+      sh.style.transition = 'none';
+    }, { passive: true });
+    sh.addEventListener('touchmove', function (e) {
+      if (!on) return; dy = e.touches[0].clientY - y0;
+      if (dy <= 0 || (!fromGrab && sh.scrollTop > 0)) { if (dy > 0 || sh.scrollTop > 0) { dy = 0; sh.style.transform = ''; } return; }
+      if (e.cancelable) e.preventDefault();
+      sh.style.transform = 'translateY(' + dy + 'px)'; ov.style.background = 'rgba(0,0,0,' + Math.max(.1, .66 - dy / 700) + ')';
+    }, { passive: false });
+    function end() {
+      if (!on) return; on = false; sh.style.transition = 'transform .2s ease-out';
+      var fast = dy > 40 && (Date.now() - t0) < 280;
+      if (dy > 110 || fast) { sh.style.transform = 'translateY(105%)'; setTimeout(function () { ov.remove(); }, 190); }
+      else { sh.style.transform = ''; ov.style.background = ''; }
+    }
+    sh.addEventListener('touchend', end); sh.addEventListener('touchcancel', end);
+    document.addEventListener('keydown', function esc(e) { if (!ov.isConnected) { document.removeEventListener('keydown', esc); return; } if (e.key === 'Escape') ov.remove(); });
   }
   function askText(title, value, okLabel, cb, modal) {
     var inp = h('input', { type: 'text', value: value || '', maxlength: '40', autocomplete: 'off' });
@@ -401,7 +427,7 @@ a{color:#9cc4ff}
   function sqCap(id) { var c = null; (PKG.squads || []).forEach(function (s) { if (s.id === id) c = s.capacity || null; }); return c; }
   var ADM = { in: 'المقبولون', reserve: 'الاحتياط', wait: 'في الانتظار' };
   function sqName(id) { if (!SQM) { SQM = {}; (PKG.squads || []).forEach(function (s) { SQM[s.id] = s.name; }); } return SQM[id] || ''; }
-  function payOk(e, f) { if (!f) return true; if (f === 'rest') return e.fee > 0 && e.remaining > 0; if (f === 'none') return e.fee > 0 && e.paid <= 0; if (f === 'paid') return e.fee > 0 && e.remaining <= 0; if (f === 'nokit') { var k = kitSummary(e); return !!k && k.n < k.total; } return true; }
+  function payOk(e, f) { if (!f) return true; if (f === 'rest') return e.fee > 0 && e.remaining > 0; if (f === 'none') return e.fee > 0 && e.paid <= 0; if (f === 'paid') return e.fee > 0 && e.remaining <= 0; if (f === 'nokit') { var k = kitSummary(e); return !!k && k.n < k.total; } if (f === 'cap') return hasCap(e) === true; if (f === 'nocap') return hasCap(e) === false; return true; }
   function rows(opts) {
     opts = opts || {};
     var out = [], q = view.q.trim();
@@ -450,6 +476,9 @@ a{color:#9cc4ff}
   }
   function sizeName(id) { var s = (PKG.kit_sizes || []).filter(function (x) { return x.id === id; })[0]; return s ? s.name : ''; }
   function kitSummary(e) { var list = branchKit(e); if (!list.length) return null; var v = kitView(e), n = 0; for (var i = 0; i < list.length; i++) if (v.items[list[i].id] && v.items[list[i].id].on) n++; return { n: n, total: list.length }; }
+  function capItem(e) { var l = branchKit(e); for (var i = 0; i < l.length; i++) if (/قبع|bonnet|\bcap\b/i.test(l[i].name || '')) return l[i]; return null; }
+  function hasCap(e) { var it = capItem(e); if (!it) return null; var v = kitView(e).items[it.id]; return !!(v && v.on); }
+  function capBadge(e) { return hasCap(e) ? h('span', { class: 'cap', title: 'استلم قبعة السباحة' }, '🏊 قبعة') : null; }
   function kitChip(e) { var k = kitSummary(e); if (!k) return null; return h('span', { class: 'kit ' + (k.n === k.total ? 'ok' : k.n ? 'part' : 'none') }, k.n === k.total ? 'بذلة كاملة' : k.n ? 'بذلة ' + k.n + '/' + k.total : 'لم يستلم البذلة'); }
   function kitEv(m, e, kind, extra) {
     var u = newUid('k'), o = { uid: u, kind: kind, at: nowLocal(), person_id: m.person_id, enrollment_id: e.id, person_name: m.display_name };
@@ -474,7 +503,7 @@ a{color:#9cc4ff}
     var ring = h('div', { class: 'av' + (day ? (day.last === 'in' ? ' in' : ' out') : '') }, img);
     var inside = day && day.last === 'in';
     var go = h('button', { class: 'go ' + (inside ? 'out' : 'in'), 'aria-label': inside ? 'تسجيل خروج' : 'تسجيل دخول', onclick: function (ev) { ev.stopPropagation(); mark(r.m, r.e, inside ? 'out' : 'in', 'manual'); } }, inside ? 'خروج' : 'دخول');
-    var card = h('div', { class: 'person' + (flashKey === key ? ' flash' : '') + (first && !lsGet('gw.hint') ? ' peek' : '') }, h('span', { class: 'rn' }, num || ''), ring, h('div', { class: 'nm' }, h('b', null, r.m.display_name), h('small', null, [age(r.m.birth_date), view.squad ? '' : sqName(r.e.squad_id)].filter(Boolean).join(' · ')), h('div', null, state, day ? h('button', { class: 'xb', 'aria-label': 'إلغاء آخر تسجيل', title: 'إلغاء آخر تسجيل', onclick: function (ev) { ev.stopPropagation(); var l = lastEvToday(r.m, r.e); if (l) cancelEv(l); } }, ic('x')) : null), h('div', null, subChip(r.e), kitChip(r.e))), go);
+    var card = h('div', { class: 'person' + (flashKey === key ? ' flash' : '') + (first && !lsGet('gw.hint') ? ' peek' : '') }, h('span', { class: 'rn' }, num || ''), ring, h('div', { class: 'nm' }, h('b', null, r.m.display_name), h('small', null, [age(r.m.birth_date), view.squad ? '' : sqName(r.e.squad_id)].filter(Boolean).join(' · ')), h('div', null, state, day ? h('button', { class: 'xb', 'aria-label': 'إلغاء آخر تسجيل', title: 'إلغاء آخر تسجيل', onclick: function (ev) { ev.stopPropagation(); var l = lastEvToday(r.m, r.e); if (l) cancelEv(l); } }, ic('x')) : null), h('div', null, subChip(r.e), capBadge(r.e), kitChip(r.e))), go);
     wrap.appendChild(bg); wrap.appendChild(card);
     var sx = 0, sy = 0, dx = 0, drag = false, moved = false, id = null;
     card.addEventListener('pointerdown', function (ev) { if (ev.button > 0 || (ev.target.closest && ev.target.closest('.go'))) return; sx = ev.clientX; sy = ev.clientY; dx = 0; drag = true; moved = false; id = ev.pointerId; card.classList.remove('peek'); });
@@ -549,7 +578,7 @@ a{color:#9cc4ff}
     ['in', 'reserve', 'wait'].forEach(function (k) { UI.adm.appendChild(h('button', { class: view.adm === k ? 'on' : '', onclick: function () { view.adm = k; view.status = ''; render(); } }, ADM[k], h('small', null, cnt[k]))); });
     var base = []; PKG.members.forEach(function (m) { m.enrollments.forEach(function (e) { if (e.is_current && st(e) === view.adm && (!view.squad || String(e.squad_id) === view.squad)) base.push(e); }); });
     clear(UI.fchips);
-    [['', 'الكل'], ['rest', 'عليهم متبقٍّ'], ['none', 'لم يدفعوا شيئًا'], ['paid', 'مسدَّدون'], ['nokit', 'ينقصهم صنف بذلة']].forEach(function (f) {
+    [['', 'الكل'], ['rest', 'عليهم متبقٍّ'], ['none', 'لم يدفعوا شيئًا'], ['paid', 'مسدَّدون'], ['nokit', 'ينقصهم صنف بذلة'], ['cap', 'استلموا القبعة 🏊'], ['nocap', 'بلا قبعة']].forEach(function (f) {
       var c = 0; if (f[0]) for (var i = 0; i < base.length; i++) if (payOk(base[i], f[0])) c++;
       UI.fchips.appendChild(h('button', { class: 'chip f' + (view.pay === f[0] ? ' on' : ''), onclick: function () { view.pay = f[0]; render(); } }, f[1], f[0] ? h('small', null, c) : null));
     });
@@ -742,7 +771,7 @@ a{color:#9cc4ff}
     var tabsEl = h('div', { class: 'tabs2' }, [['info', 'المعلومات'], ['sub', 'الاشتراك'], ['kit', 'البذلة']].map(function (t) { return h('button', { class: view.tab === t[0] ? 'on' : '', onclick: function () { reopen(t[0]); } }, t[1]); }));
     ov = sheet(h('div', null,
       h('div', { class: 'hero' }, m.photoUrl ? h('img', { class: 'big', src: m.photoUrl, alt: '' }) : h('div', { class: 'big noimg' }, initials(m.display_name) || '👤'),
-        h('div', { class: 'nm' }, h('h2', null, m.display_name), h('div', { class: 'mut', style: 'margin:4px 0 6px' }, e.branch + ' — ' + sqName(e.squad_id)), h('div', null, subChip(e), kitChip(e)),
+        h('div', { class: 'nm' }, h('h2', null, m.display_name), h('div', { class: 'mut', style: 'margin:4px 0 6px' }, e.branch + ' — ' + sqName(e.squad_id)), h('div', null, subChip(e), capBadge(e), kitChip(e)),
           day ? h('div', { class: 'st ' + (day.last === 'in' ? 'in' : 'out'), style: 'display:inline-block;margin-top:8px' }, day.last === 'in' ? 'بالداخل منذ ' + hm(day.first_in) : 'غادر ' + hm(day.last_out)) : h('div', { class: 'st', style: 'display:inline-block;margin-top:8px' }, 'لم يدخل اليوم'))),
       st(e) !== 'in' ? h('div', { class: 'warn', style: 'margin:8px 0' }, 'حالة القبول: ' + ADM[st(e)] + ' — لا يُسجَّل له دخول من الهاتف.') : h('div', { class: 'acts' }, h('button', { class: 'btn ok', onclick: function () { if (mark(m, e, 'in')) ov.remove(); } }, ic('in'), 'دخل'), h('button', { class: 'btn out', onclick: function () { if (mark(m, e, 'out')) ov.remove(); } }, ic('out'), 'خرج')),
       debtBanner(m, e),
