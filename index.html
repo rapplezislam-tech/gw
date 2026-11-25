@@ -103,7 +103,7 @@ input.search:focus{border-color:var(--gold2)}
 .kit{display:inline-block;border-radius:8px;padding:1px 8px;font-size:12.5px;margin-top:3px;margin-inline-start:4px}
 .kit.ok{background:#12382a;color:#8ee5ae}.kit.part{background:#2c2f55;color:#b5bcff}.kit.none{background:var(--surface2);color:var(--mut)}
 .nm .st{display:inline-block;min-width:0;padding:2px 9px;margin-top:3px;font-size:13px;border-radius:9px}
-.tabs2{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:5px;margin:14px 0 4px}
+.tabs2{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:5px;margin:14px 0 4px}
 .tabs2 button{border:0;background:transparent;border-radius:12px;padding:10px 4px;font-weight:600;color:var(--mut)}
 .tabs2 button.on{background:var(--gold);color:#1a1405}
 .tiles{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
@@ -213,6 +213,40 @@ a{color:#9cc4ff}
 .toast.act{display:flex;align-items:center;gap:12px;justify-content:space-between;top:auto;bottom:calc(76px + var(--sb))}
 .toast.act button{background:var(--gold);color:#1a1405;border:0;border-radius:10px;padding:8px 14px;font-weight:700}
 .evr{display:flex;align-items:center;gap:8px;padding:4px 0}.evr span{flex:1}
+
+/* ---------- 1.11: نافذة البذلة، واتساب ---------- */
+.call{border:0;font:inherit;cursor:pointer}
+.kw .kh{display:flex;gap:12px;align-items:center}
+.kw .kh .ph2{width:64px;height:76px;border-radius:16px;object-fit:cover;background:var(--surface2);border:2px solid var(--line);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--mut)}
+.kw .kh h2{font-size:20px}
+.kw .prog{margin-top:10px}
+.kw .prog .bar{margin:6px 0 2px}
+.capbtn{display:flex;align-items:center;gap:14px;width:100%;margin-top:14px;padding:16px 18px;border-radius:20px;border:2px solid #1d7a9c;background:linear-gradient(145deg,#0f3d4f,#0b2c3a);color:#bff0ff;font-size:19px;font-weight:700;text-align:start;box-shadow:0 6px 18px #0006}
+.capbtn .ci{font-size:34px;line-height:1}
+.capbtn small{display:block;font-weight:400;font-size:13.5px;color:#8fd0e6;margin-top:2px}
+.capbtn.on{background:linear-gradient(145deg,#1f9d62,#14683c);border-color:#35c985;color:#fff}.capbtn.on small{color:#c9f5dc}
+.kw .szg{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+.kw .szg button{padding:13px 4px;border-radius:14px;background:var(--surface2);border:1.5px solid var(--line);font-size:17px;font-weight:600;color:var(--txt)}
+.kw .szg button.on{background:var(--gold);color:#1a1405;border-color:var(--gold)}
+.kw .dbx{margin-top:12px;border-radius:18px;padding:14px 16px}
+.kw .dbx.rest{background:linear-gradient(145deg,#4a1c1c,#331313);color:#ffc0c0}.kw .dbx.ok{background:linear-gradient(145deg,#12382a,#0d2a20);color:#8ee5ae}
+.kw .dbx .am{font-size:26px;font-weight:800;line-height:1.3}.kw .dbx small{opacity:.85;display:block}
+.kw .dbx .bar{background:#0004}
+.cact{display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 8px;border-radius:16px;font-size:18px;font-weight:700;text-decoration:none;color:#fff;border:0}
+.cact.tel{background:linear-gradient(145deg,#4c8dff,#2a62c9)}.cact.wa{background:linear-gradient(145deg,#2fcf6f,#128c4a)}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 8px}
+.tpl{display:flex;gap:6px;overflow-x:auto;padding:6px 0;scrollbar-width:none}.tpl::-webkit-scrollbar{display:none}
+.tpl .chip{white-space:nowrap}
+.sheet textarea.msg{min-height:96px;font-size:16px;line-height:1.6}
+.wl{max-height:38vh;overflow:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin:8px 0}
+.wr{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);width:100%;background:transparent;border-inline:0;border-top:0;color:var(--txt);text-align:start}
+.wr:last-child{border-bottom:0}.wr.dis{opacity:.45}
+.wr .ck{width:26px;height:26px;border-radius:8px;border:2px solid var(--line);flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff}
+.wr.on .ck{background:var(--ok);border-color:var(--ok)}
+.wr .t{flex:1;min-width:0}.wr .t small{display:block;color:var(--mut);direction:ltr;text-align:start}
+.wq{background:linear-gradient(145deg,#2fcf6f,#128c4a);color:#fff;border:0;border-radius:18px;padding:18px;font-size:20px;font-weight:800;width:100%;text-decoration:none;display:flex;justify-content:center;align-items:center;gap:10px;margin:12px 0}
+.coachtag{display:inline-block;background:#2c2f55;color:#b5bcff;border-radius:8px;padding:1px 8px;font-size:12px;margin-inline-start:6px}
+.lock input.un{margin-bottom:0}
 </style>
 </head>
 <body>
@@ -225,6 +259,7 @@ a{color:#9cc4ff}
   var app = document.getElementById('app');
   var PKG = null, EX_KEY = null, ST = { store: {}, outbox: [], device: '', lastExportAt: '' }, KEY = '', memOnly = false, flashKey = '';
   var D = { events: [], incidents: [], kit: [], guests: [], co: [], coMap: {}, sessions: {}, v: 0 }, UI = null, dragging = false, deferred = false, SQM = null, BK = {}, KC = { v: -1, by: {} }, SQC = {}, DC = null;
+  var COACH = false, WA = { sel: {}, squad: '', f: '', q: '' };
   var SY = { on: false, online: false, busy: false, base: '', key: null, es: [], day: '', retry: 0, rq: 0 };
   var COLL = (function () { try { return new Intl.Collator('ar'); } catch (e) { return { compare: function (a, b) { return a < b ? -1 : a > b ? 1 : 0; } }; } })();
   var view = { adm: 'in', squad: '', q: '', status: '', pay: '', tab: 'info', page: 'att', cday: '', dsq: '' };
@@ -279,7 +314,7 @@ a{color:#9cc4ff}
   /* ---------- نوافذ بسيطة (بدل prompt/confirm) ---------- */
   function sheet(content, opts) {
     opts = opts || {};
-    var ov = h('div', { class: 'ov', onclick: function (e) { if (e.target === ov && !opts.modal) ov.remove(); } },
+    var t0 = Date.now(), ov = h('div', { class: 'ov', onclick: function (e) { if (e.target === ov && !opts.modal && Date.now() - t0 > 400) ov.remove(); } },
       h('div', { class: 'sheet' }, h('div', { class: 'grab' }), content, opts.noclose ? null : h('div', { style: 'margin-top:14px' }, h('button', { class: 'btn blk', onclick: function () { ov.remove(); } }, 'إغلاق'))));
     var sh = ov.firstChild; if (!opts.modal) dragClose(ov, sh);
     document.body.appendChild(ov); return ov;
@@ -394,16 +429,55 @@ a{color:#9cc4ff}
       h('button', { class: 'btn pri blk', onclick: function () { location.reload(); } }, 'إعادة المحاولة'), h('div', { style: 'height:10px' }), h('button', { class: 'btn blk', onclick: function () { f.click(); } }, 'اختيار ملف البيانات يدويًا'), f)));
   }
   function enter(o) { if (o.plain) ready(o.plain); else if (o.enc) screenLock(o.enc); else screenFail('الملف غير مفهوم.'); }
+  function normUser(u) { return String(u || '').normalize ? String(u || '').normalize('NFKC').trim().toLowerCase().replace(/\s+/g, '') : String(u || '').trim().toLowerCase().replace(/\s+/g, ''); }
+  function userFileName(u) {
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode('gw-user:' + normUser(u))).then(function (b) { var a = new Uint8Array(b), t = '', i; for (i = 0; i < 10; i++) t += ('0' + a[i].toString(16)).slice(-2); return 'u-' + t + '.gwdat'; });
+  }
+  function screenLogin() {
+    app.innerHTML = '';
+    var un = h('input', { type: 'text', class: 'un', placeholder: 'اسم المستخدم (للمدرب — المدير يتركه فارغًا)', autocomplete: 'username', autocapitalize: 'none', autocorrect: 'off', spellcheck: 'false', value: lsGet('gw.un') || '' });
+    var pw = h('input', { type: 'password', placeholder: 'كلمة المرور', autocomplete: 'current-password' });
+    var rem = h('input', { type: 'checkbox' }), msg = h('div', { class: 'msg' });
+    var btn = h('button', { class: 'btn pri blk', onclick: function () { go(un.value, pw.value, rem.checked, false); } }, 'فتح');
+    var file = h('input', { type: 'file', accept: '.gwdat,.json,application/json', style: 'display:none' });
+    file.addEventListener('change', function () { var f = file.files && file.files[0]; if (!f) return; var r = new FileReader(); r.onload = function () { try { var o = JSON.parse(r.result); if (o.enc || o.plain) { enter(o); return; } } catch (e) { /* */ } toast('هذا ليس ملف بيانات صالحًا'); }; r.readAsText(f); });
+    function fail(t) { btn.disabled = false; msg.style.color = 'var(--bad)'; msg.textContent = t; pw.value = ''; }
+    function go(u, p, keep, auto) {
+      if (!(window.crypto && crypto.subtle)) { fail('هذا المتصفح لا يدعم فتح الملف المشفّر. افتح الصفحة عبر رابط https.'); return; }
+      if (!p) { fail('اكتب كلمة المرور.'); return; }
+      msg.style.color = 'var(--mut)'; msg.textContent = 'جارٍ الفتح…'; btn.disabled = true;
+      var coach = !!normUser(u);
+      (coach ? userFileName(u) : Promise.resolve(BOOT.remote)).then(function (url) {
+        return fetch(url, { cache: 'no-cache' }).then(function (r) { if (r.status === 404 || r.status === 403) { var e = new Error('nf'); e.k = 'bad'; throw e; } if (!r.ok) { var e2 = new Error('http'); e2.k = 'net'; throw e2; } return r.json(); }, function () { var e3 = new Error('net'); e3.k = 'net'; throw e3; });
+      }).then(function (o) {
+        if (!o.enc) { var e = new Error('fmt'); e.k = 'bad'; throw e; }
+        return decryptEnc(o.enc, p).catch(function () { var e = new Error('pw'); e.k = 'bad'; throw e; });
+      }).then(function (pkg) {
+        if (keep) { lsSet('gw.pw', p); lsSet('gw.un', u); } else { lsDel('gw.pw'); lsSet('gw.un', coach ? u : ''); }
+        ready(pkg);
+      }).catch(function (e) {
+        if (auto) { lsDel('gw.pw'); }
+        fail(e && e.k === 'net' ? 'تعذّر الاتصال بالإنترنت. تأكد منه ثم أعد المحاولة.' : (coach ? 'اسم المستخدم أو كلمة المرور خاطئة.' : 'كلمة المرور خاطئة.'));
+      });
+    }
+    pw.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') go(un.value, pw.value, rem.checked, false); });
+    un.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') pw.focus(); });
+    app.appendChild(h('div', { class: 'lock' }, h('div', { class: 'box' }, logoEl(true), h('h1', null, 'تسجيل الحضور'), h('div', { class: 'mut', style: 'font-size:15px' }, 'أدخل بيانات الدخول'), un, pw,
+      h('label', null, rem, h('span', null, 'تذكّر بياناتي على هذا الجهاز')), btn, msg,
+      h('button', { class: 'btn', style: 'margin-top:10px;font-size:13px;padding:8px', onclick: function () { file.click(); } }, 'فتح ملف بيانات يدويًا (بلا إنترنت)'), file)));
+    var sp = lsGet('gw.pw');
+    if (sp && window.crypto && crypto.subtle) go(lsGet('gw.un') || '', sp, true, true);
+    else setTimeout(function () { try { (un.value ? pw : un).focus(); } catch (e) { /* */ } }, 80);
+  }
   function start() {
     if (BOOT.remote) {
-      app.appendChild(h('div', { class: 'lock' }, h('div', { class: 'box' }, logoEl(true), h('div', { class: 'spin' }), h('div', { class: 'mut' }, 'جارٍ تحميل البيانات…'))));
-      fetch(BOOT.remote, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); }).then(enter).catch(function () { screenFail('تأكد من اتصال الإنترنت. إن كنت قد فتحت الصفحة من قبل فقد تعمل دون إنترنت بعد أول تحميل ناجح.'); });
+      screenLogin();
       if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) { try { navigator.serviceWorker.register('sw.js').catch(function () { /* */ }); } catch (e) { /* */ } }
     } else enter(BOOT);
   }
 
   function ready(pkg) {
-    PKG = pkg; EX_KEY = pkg.exchange_key; KEY = 'gw.att.' + (pkg.club && pkg.club.name || 'club');
+    PKG = pkg; COACH = !!(pkg.role && pkg.role.type === 'coach'); if (COACH) { view.page = 'att'; view.pay = ''; if (view.tab === 'sub') view.tab = 'info'; } EX_KEY = pkg.exchange_key; KEY = 'gw.att.' + (pkg.club && pkg.club.name || 'club');
     load();
     PKG.members.forEach(function (m) { if (m.photo) { m.photoUrl = blobUrl(m.photo); m.photo = null; } });
     PKG.members.sort(function (a, b) { return COLL.compare(a.display_name, b.display_name); });
@@ -442,7 +516,7 @@ a{color:#9cc4ff}
     });
     return out;
   }
-  function subChip(e) { if (e.fee <= 0) return null; if (e.remaining <= 0) return h('span', { class: 'sub paid' }, 'مسدَّد'); if (e.paid > 0) return h('span', { class: 'sub part' }, 'متبقٍّ ' + money(e.remaining)); return h('span', { class: 'sub un' }, 'غير مسدَّد'); }
+  function subChip(e) { if (COACH || e.fee <= 0) return null; if (e.remaining <= 0) return h('span', { class: 'sub paid' }, 'مسدَّد'); if (e.paid > 0) return h('span', { class: 'sub part' }, 'متبقٍّ ' + money(e.remaining)); return h('span', { class: 'sub un' }, 'غير مسدَّد'); }
 
   /* ---------- التسجيل ---------- */
   function mark(m, e, kind, method) {
@@ -487,11 +561,187 @@ a{color:#9cc4ff}
   function setItem(m, e, item, on) { kitEv(m, e, 'item', { item_id: item.id, item_name: item.name, received: on, size_id: kitView(e).size_id }); buzz(); }
   function setSize(m, e, sid) { kitEv(m, e, 'size', { size_id: sid, size_name: sid ? sizeName(sid) : '' }); buzz(); }
 
+
+  /* ---------- نافذة البذلة (ضغط مطوّل على المنخرط) ---------- */
+  function debtBox(m, e) {
+    if (COACH || e.fee <= 0) return null;
+    var pct = Math.max(0, Math.min(100, Math.round(e.paid * 100 / e.fee))), rest = e.remaining > 0;
+    var others = 0; m.enrollments.forEach(function (x) { if (x.id !== e.id && isAct(x) && x.fee > 0 && x.remaining > 0) others += x.remaining; });
+    return h('div', { class: 'dbx ' + (rest ? 'rest' : 'ok') },
+      h('small', null, rest ? 'المتبقي ليُكمل دفع اشتراكه' : 'الاشتراك'), h('div', { class: 'am' }, rest ? money(e.remaining) : 'مسدَّد بالكامل ✓'),
+      h('div', { class: 'bar' + (rest ? '' : ' full') }, h('i', { style: 'width:' + pct + '%' })),
+      h('small', null, 'دفع ' + money(Math.max(0, e.paid)) + ' من ' + money(e.fee)), others > 0 ? h('small', { style: 'margin-top:4px' }, 'وعليه في فوج آخر: ' + money(others)) : null);
+  }
+  function kitWindow(r) {
+    var m = r.m, e = r.e, ov = null, box = h('div', { class: 'kw' });
+    function paint() { clear(box).appendChild(body()); }
+    function after() { paint(); try { render(); } catch (x) { /* */ } }
+    function body() {
+      var kv = kitView(e), items = branchKit(e), sizes = PKG.kit_sizes || [], cap = capItem(e), capOn = hasCap(e), k = kitSummary(e), others = [];
+      var ph = m.photoUrl ? h('img', { class: 'ph2', src: m.photoUrl, alt: '' }) : h('div', { class: 'ph2' }, initials(m.display_name) || '👤');
+      var rest = items.filter(function (it) { return !cap || it.id !== cap.id; });
+      var el = h('div', null,
+        h('div', { class: 'kh' }, ph, h('div', { class: 'nm' }, h('h2', null, m.display_name), h('div', { class: 'mut', style: 'margin-top:2px' }, [e.branch, sqName(e.squad_id), age(m.birth_date)].filter(Boolean).join(' · ')), h('div', null, capBadge(e), kitChip(e)))),
+        cap ? h('button', { class: 'capbtn' + (capOn ? ' on' : ''), onclick: function () { setItem(m, e, cap, !capOn); after(); } }, h('span', { class: 'ci' }, capOn ? '✅' : '🏊'),
+          h('span', null, capOn ? 'استلم ' + cap.name : 'تسليم ' + cap.name, h('small', null, capOn ? (kv.items[cap.id] && kv.items[cap.id].at ? 'بتاريخ ' + dmy(kv.items[cap.id].at) + ' — اضغط للتراجع' : 'اضغط للتراجع') : 'اضغط عند تسليمه القبعة'))) : null,
+        debtBox(m, e),
+        h('div', { class: 'grp' }, h('h3', null, 'المقاس' + (kv.size_id ? ' — ' + sizeName(kv.size_id) : '')), sizes.length ? h('div', { class: 'szg' }, sizes.map(function (z) { return h('button', { class: kv.size_id === z.id ? 'on' : '', onclick: function () { setSize(m, e, kv.size_id === z.id ? null : z.id); after(); } }, z.name); })) : h('div', { class: 'mut' }, 'لم تُحدَّد مقاسات في البرنامج.')),
+        rest.length ? h('div', { class: 'grp' }, h('h3', null, 'الأصناف' + (k ? ' — ' + k.n + '/' + k.total : '')), rest.map(function (it) {
+          var st = kv.items[it.id], on = !!(st && st.on);
+          return h('div', { class: 'krow' }, h('div', { class: 'kn' }, it.name, h('small', null, on ? 'استلم' + (st.at ? ' · ' + dmy(st.at) : '') : 'لم يستلم بعد')),
+            h('button', { class: 'tg' + (on ? ' on' : ''), 'aria-label': it.name, 'aria-pressed': on ? 'true' : 'false', onclick: function () { setItem(m, e, it, !on); after(); } }));
+        })) : null,
+        h('div', { class: 'acts' }, h('button', { class: 'btn', onclick: function () { ov.remove(); details(r); } }, 'الملف الكامل'), (m.phone || m.phone2) ? h('button', { class: 'btn', onclick: function () { ov.remove(); contactSheet(m, m.phone || m.phone2, r); } }, ic('phone'), 'اتصال') : h('span')));
+      return el;
+    }
+    paint(); ov = sheet(box); return ov;
+  }
+  function longPress(card, r, lp) {
+    var t = 0, x0 = 0, y0 = 0;
+    card.addEventListener('pointerdown', function (ev) {
+      if (ev.button > 0 || (ev.target.closest && ev.target.closest('.go,.xb'))) return;
+      x0 = ev.clientX; y0 = ev.clientY; lp.fired = false; clearTimeout(t);
+      t = setTimeout(function () { t = 0; lp.fired = true; buzz(); kitWindow(r); }, 480);
+    });
+    card.addEventListener('pointermove', function (ev) { if (t && (Math.abs(ev.clientX - x0) > 10 || Math.abs(ev.clientY - y0) > 10)) { clearTimeout(t); t = 0; } });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (n) { card.addEventListener(n, function () { clearTimeout(t); t = 0; }); });
+  }
+
+  /* ---------- واتساب ---------- */
+  function digits(t) { return String(t || '').replace(/[٠-٩]/g, function (c) { return String(c.charCodeAt(0) - 1632); }).replace(/[۰-۹]/g, function (c) { return String(c.charCodeAt(0) - 1776); }); }
+  function waNum(n) {
+    var d = digits(n).replace(/[^\d+]/g, ''); if (!d) return '';
+    var cc = (PKG.club && PKG.club.country_code) || '213';
+    if (d.charAt(0) === '+') return d.slice(1).replace(/\D/g, '');
+    d = d.replace(/\D/g, ''); if (d.indexOf('00') === 0) return d.slice(2); if (d.charAt(0) === '0') return cc + d.slice(1); if (d.length <= 9) return cc + d; return d;
+  }
+  function waLink(n, text) { return 'https://wa.me/' + waNum(n) + (text ? '?text=' + encodeURIComponent(text) : ''); }
+  function fillMsg(t, r) {
+    var kv = kitView(r.e), clubN = (PKG.club && (PKG.club.name_ar || PKG.club.name)) || '';
+    return String(t || '').replace(/\{الاسم\}/g, r.m.display_name).replace(/\{الفوج\}/g, sqName(r.e.squad_id)).replace(/\{المقاس\}/g, kv.size_id ? sizeName(kv.size_id) : '').replace(/\{النادي\}/g, clubN)
+      .replace(/\{المتبقي\}/g, COACH ? '' : money(Math.max(0, r.e.remaining)));
+  }
+  function tplList() {
+    var base = [{ t: 'تذكير بالحصة', x: 'السلام عليكم، تذكير بحصة {الاسم} ({الفوج}). {النادي}' }, { t: 'البذلة جاهزة', x: 'السلام عليكم، بذلة {الاسم} جاهزة للاستلام من النادي. {النادي}' }];
+    if (!COACH) base.push({ t: 'تذكير بالدفع', x: 'السلام عليكم، نذكّركم بأن المتبقي من اشتراك {الاسم} هو {المتبقي}. شكرًا لكم. {النادي}' });
+    var mine = []; try { mine = JSON.parse(lsGet('gw.wa.tpl') || '[]'); } catch (e) { mine = []; }
+    return { base: base, mine: mine };
+  }
+  function tplChips(ta, onPick) {
+    var L = tplList(), box = h('div', { class: 'tpl' });
+    function paint() {
+      clear(box); L = tplList();
+      L.base.forEach(function (t) { box.appendChild(h('button', { class: 'chip', onclick: function () { ta.value = t.x; onPick(); } }, t.t)); });
+      L.mine.forEach(function (t, i) { box.appendChild(h('button', { class: 'chip', onclick: function () { ta.value = t.x; onPick(); } }, '★ ' + t.t, h('small', { onclick: function (ev) { ev.stopPropagation(); L.mine.splice(i, 1); lsSet('gw.wa.tpl', JSON.stringify(L.mine)); paint(); } }, '✕'))); });
+      box.appendChild(h('button', { class: 'chip', onclick: function () { var v = ta.value.trim(); if (!v) { toast('اكتب الرسالة أولًا'); return; } askText('اسم القالب', '', 'حفظ', function (nm) { var l = tplList().mine; l.push({ t: nm, x: v }); lsSet('gw.wa.tpl', JSON.stringify(l.slice(-12))); paint(); toast('حُفظ القالب'); }); } }, '+ حفظ هذه الرسالة كقالب'));
+    }
+    paint(); return box;
+  }
+  function copyText(t, okMsg) {
+    function fb() { var a = document.createElement('textarea'); a.value = t; a.style.position = 'fixed'; a.style.opacity = '0'; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); toast(okMsg || 'تم النسخ'); } catch (e) { toast('تعذّر النسخ'); } a.remove(); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(function () { toast(okMsg || 'تم النسخ'); }, fb); else fb();
+  }
+  /** نافذة الاتصال: اتصال هاتفي أو رسالة واتساب (مع قوالب) */
+  function contactSheet(m, num, r) {
+    var ta = h('textarea', { class: 'msg', rows: 3, placeholder: 'نص الرسالة (اختياري)…' }), a = h('a', { class: 'cact wa', target: '_blank', rel: 'noopener', href: waLink(num, '') }, '💬 واتساب');
+    var row = r || { m: m, e: (m.enrollments.filter(function (x) { return x.is_current; })[0] || m.enrollments[0]) };
+    function upd() { a.href = waLink(num, fillMsg(ta.value, row)); }
+    ta.addEventListener('input', upd);
+    var ov = sheet(h('div', null, h('h2', null, m.display_name), h('div', { class: 'mut', style: 'direction:ltr;text-align:start;margin-top:2px' }, num), m.guardian_name ? h('div', { class: 'mut', style: 'margin-top:2px' }, 'الولي: ' + m.guardian_name) : null,
+      h('div', { class: 'cgrid' }, h('a', { class: 'cact tel', href: 'tel:' + num }, ic('phone'), 'اتصال'), a),
+      h('h3', { style: 'margin-top:8px' }, 'رسالة واتساب'), tplChips(ta, upd), ta,
+      h('div', { class: 'mut', style: 'font-size:12.5px' }, 'يمكنك كتابة {الاسم} {الفوج} {المقاس}' + (COACH ? '' : ' {المتبقي}') + ' فتُستبدل ببيانات المنخرط.'),
+      h('div', { class: 'acts' }, h('button', { class: 'btn', onclick: function () { copyText(num, 'نُسخ الرقم'); } }, 'نسخ الرقم'), h('button', { class: 'btn', onclick: function () { ov.remove(); waComposer(); } }, '💬 رسالة لعدة أولياء'))));
+  }
+  function waCands() {
+    var out = [];
+    PKG.members.forEach(function (m) { m.enrollments.forEach(function (e) { if (!isAct(e)) return; out.push({ m: m, e: e, num: m.phone || m.phone2 || '' }); }); });
+    return out;
+  }
+  function waPass(c, ds) {
+    if (WA.squad && String(c.e.squad_id) !== WA.squad) return false;
+    var q = WA.q.trim(); if (q && (c.m.display_name + ' ' + c.m.full_name).indexOf(q) < 0) return false;
+    var f = WA.f; if (f === 'rest') return !COACH && c.e.fee > 0 && c.e.remaining > 0; if (f === 'nokit') { var k = kitSummary(c.e); return !!k && k.n < k.total; } if (f === 'nocap') return hasCap(c.e) === false;
+    if (f === 'noin') return !ds[c.m.person_id + ':' + (c.e.squad_id || 0)];
+    return true;
+  }
+  /** نافذة رسائل واتساب لعدة أولياء: اختيار ← كتابة ← إرسال لكل واحد على حدة، أو إنشاء قروب */
+  function waComposer() {
+    var cands = waCands(), ds = dayState(), listBox = h('div'), cnt = h('b'), msg = lsGet('gw.wa.msg') || '';
+    if (!WA.init) { WA.init = true; WA.squad = view.squad || ''; }
+    var ta = h('textarea', { class: 'msg', rows: 4, placeholder: 'اكتب الرسالة… يمكنك استعمال {الاسم} {الفوج} {المقاس}' + (COACH ? '' : ' {المتبقي}') }); ta.value = msg;
+    var q = h('input', { type: 'search', class: 'search', placeholder: 'ابحث بالاسم…', style: 'width:100%;margin:6px 0;padding:11px 14px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--txt)', value: WA.q });
+    function chosen() { return cands.filter(function (c) { return WA.sel[c.e.id] && c.num; }); }
+    function paint() {
+      var vis = cands.filter(function (c) { return waPass(c, ds); }); clear(listBox);
+      var chips = h('div', { class: 'chips', style: 'padding:6px 0' }); chips.appendChild(h('button', { class: 'chip' + (!WA.squad ? ' on' : ''), onclick: function () { WA.squad = ''; paint(); } }, 'كل الأفواج'));
+      (PKG.squads || []).forEach(function (sq) { if (SQC[sq.id]) chips.appendChild(h('button', { class: 'chip' + (WA.squad === String(sq.id) ? ' on' : ''), onclick: function () { WA.squad = String(sq.id); paint(); } }, sq.name)); });
+      var fl = h('div', { class: 'chips', style: 'padding:0 0 6px' }); [['', 'الكل'], ['noin', 'لم يدخلوا اليوم'], ['nokit', 'ينقصهم بذلة'], ['nocap', 'بلا قبعة']].concat(COACH ? [] : [['rest', 'عليهم متبقٍّ']]).forEach(function (f) { fl.appendChild(h('button', { class: 'chip f' + (WA.f === f[0] ? ' on' : ''), onclick: function () { WA.f = f[0]; paint(); } }, f[1])); });
+      var allOn = vis.length && vis.every(function (c) { return !c.num || WA.sel[c.e.id]; });
+      var bar = h('div', { class: 'row', style: 'display:flex;justify-content:space-between;align-items:center;margin:4px 0' }, h('span', null, 'المحدَّدون: ', cnt), h('button', { class: 'btn', style: 'padding:7px 12px;font-size:14px', onclick: function () { vis.forEach(function (c) { if (c.num) { if (allOn) delete WA.sel[c.e.id]; else WA.sel[c.e.id] = 1; } }); paint(); } }, allOn ? 'إلغاء تحديد الظاهرين' : 'تحديد كل الظاهرين (' + vis.filter(function (c) { return c.num; }).length + ')'));
+      var wl = h('div', { class: 'wl' }); if (!vis.length) wl.appendChild(h('div', { class: 'empty', style: 'padding:18px' }, 'لا نتائج.'));
+      vis.forEach(function (c) { var on = !!WA.sel[c.e.id]; wl.appendChild(h('button', { class: 'wr' + (on ? ' on' : '') + (c.num ? '' : ' dis'), onclick: function () { if (!c.num) { toast('لا رقم هاتف لهذا المنخرط'); return; } if (on) delete WA.sel[c.e.id]; else WA.sel[c.e.id] = 1; paint(); } }, h('span', { class: 'ck' }, on ? '✓' : ''), h('span', { class: 't' }, h('b', null, c.m.display_name), h('small', null, c.num ? c.num : 'بلا رقم')), WA.squad ? null : h('small', { class: 'mut' }, sqName(c.e.squad_id)))); });
+      listBox.append(chips, fl, bar, wl); cnt.textContent = chosen().length; goBtn.textContent = 'ابدأ الإرسال (' + chosen().length + ')';
+    }
+    q.addEventListener('input', function () { WA.q = q.value; paint(); });
+    ta.addEventListener('input', function () { lsSet('gw.wa.msg', ta.value); });
+    var goBtn = h('button', { class: 'btn ok', style: 'padding:15px;font-size:18px', onclick: function () { var L = chosen(); if (!L.length) { toast('اختر منخرطًا واحدًا على الأقل'); return; } if (!ta.value.trim()) { toast('اكتب الرسالة أولًا'); return; } waQueue(L, ta.value); } }, 'ابدأ الإرسال');
+    var ov = sheet(h('div', null, h('h2', null, '💬 رسائل واتساب'), h('div', { class: 'mut', style: 'line-height:1.8;margin:4px 0 6px;font-size:14px' }, 'اختر الأولياء، اكتب الرسالة مرة واحدة، فتُرسل لكل واحد على حدة (باسمه) بضغطة لكل رسالة.'), q, listBox,
+      h('h3', { style: 'margin-top:12px' }, 'الرسالة'), tplChips(ta, function () { lsSet('gw.wa.msg', ta.value); }), ta,
+      h('div', { class: 'acts' }, goBtn, h('button', { class: 'btn', style: 'padding:15px;font-size:17px', onclick: function () { var L = chosen(); if (!L.length) { toast('اختر منخرطًا واحدًا على الأقل'); return; } waGroup(L, ta.value); } }, '👥 إنشاء قروب'))));
+    paint(); return ov;
+  }
+  /** طابور الإرسال: زر كبير يفتح واتساب برسالة جاهزة للمنخرط الحالي، ثم ينتقل للتالي */
+  function waQueue(L, text) {
+    var i = 0, sent = {}, box = h('div');
+    function paint() {
+      clear(box);
+      var done = Object.keys(sent).length, c = L[i];
+      box.appendChild(h('h2', null, 'الإرسال: ' + done + ' / ' + L.length));
+      box.appendChild(h('div', { class: 'bar' + (done === L.length ? ' full' : ''), style: 'margin:8px 0 4px' }, h('i', { style: 'width:' + Math.round(done * 100 / L.length) + '%' })));
+      if (done === L.length) { box.appendChild(h('div', { class: 'dbn ok', style: 'font-size:18px;text-align:center' }, 'اكتمل الإرسال لكل المحدَّدين ✓')); return; }
+      var t = fillMsg(text, c);
+      box.appendChild(h('div', { class: 'grp' }, h('b', { style: 'font-size:19px' }, c.m.display_name), h('div', { class: 'mut', style: 'direction:ltr;text-align:start' }, c.num + (sent[i] ? '  ✓ أُرسلت' : '')), h('div', { style: 'margin-top:8px;white-space:pre-wrap;line-height:1.7;font-size:15px' }, t)));
+      box.appendChild(h('a', { class: 'wq', target: '_blank', rel: 'noopener', href: waLink(c.num, t), onclick: function () { sent[i] = 1; setTimeout(function () { var nx = i + 1; while (nx < L.length && sent[nx]) nx++; if (nx < L.length) i = nx; paint(); }, 600); } }, '💬 افتح واتساب وأرسل إلى ' + c.m.display_name));
+      box.appendChild(h('div', { class: 'mut', style: 'font-size:13px;line-height:1.7' }, 'يفتح واتساب والرسالة جاهزة؛ اضغط زر الإرسال فيه ثم ارجع لهذه الصفحة وسيظهر المنخرط التالي. (واتساب لا يسمح لأي تطبيق بإرسال الرسائل وحده.)'));
+      box.appendChild(h('div', { class: 'acts' }, h('button', { class: 'btn', onclick: function () { if (i > 0) { i--; paint(); } } }, 'السابق'), h('button', { class: 'btn', onclick: function () { var nx = i + 1; while (nx < L.length && sent[nx]) nx++; if (nx < L.length) { i = nx; paint(); } } }, 'تخطّي')));
+      var all = h('div', { class: 'wl', style: 'max-height:26vh' }); L.forEach(function (x, k) { all.appendChild(h('button', { class: 'wr' + (sent[k] ? ' on' : ''), onclick: function () { i = k; paint(); } }, h('span', { class: 'ck' }, sent[k] ? '✓' : ''), h('span', { class: 't' }, x.m.display_name, h('small', null, x.num)))); });
+      box.appendChild(all);
+    }
+    paint(); return sheet(box);
+  }
+  function vcardOf(L) {
+    return L.map(function (c) { var nm = 'ولي ' + c.m.display_name + ' - ' + sqName(c.e.squad_id), n = '+' + waNum(c.num); return 'BEGIN:VCARD\r\nVERSION:3.0\r\nFN:' + nm + '\r\nN:' + nm + ';;;;\r\nTEL;TYPE=CELL:' + n + '\r\nEND:VCARD'; }).join('\r\n') + '\r\n';
+  }
+  function saveVcf(L) {
+    var txt = vcardOf(L), name = 'اولياء-' + (WA.squad ? sqName(+WA.squad) : 'النادي') + '.vcf';
+    try {
+      var f = new File([txt], name, { type: 'text/vcard' });
+      if (navigator.canShare && navigator.canShare({ files: [f] }) && navigator.share) { navigator.share({ files: [f] }).catch(function () { /* */ }); return; }
+    } catch (e) { /* */ }
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/vcard' })); a.download = name; document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); }, 500); toast('نُزِّل ملف جهات الاتصال');
+  }
+  function waGroup(L, text) {
+    var sqn = WA.squad ? sqName(+WA.squad) : 'النادي', gname = ((PKG.club && (PKG.club.name_ar || PKG.club.name)) || 'النادي') + ' — ' + sqn;
+    sheet(h('div', null, h('h2', null, '👥 إنشاء قروب واتساب'), h('div', { class: 'mut', style: 'line-height:1.9;margin:6px 0' }, 'واتساب لا يسمح لأي تطبيق بإنشاء قروب تلقائيًا، لكن هذه أسرع طريقة ممكنة لـ ' + L.length + ' وليًّا:'),
+      h('ol', { style: 'line-height:2;padding-inline-start:22px;margin:6px 0' },
+        h('li', null, 'اضغط «حفظ الأرقام في جهات الاتصال» ثم افتح الملف واختر إضافة الكل (تُحفظ بأسماء «ولي فلان - الفوج»). تُحفظ مرة واحدة فقط.'),
+        h('li', null, 'في واتساب: ⋯ ← مجموعة جديدة، ثم ابحث باسم الفوج «' + sqn + '» وحدّد الأسماء (أو اضغط عليها واحدًا واحدًا)، وأعطِ المجموعة الاسم المقترح.'),
+        h('li', null, 'ألصق رسالة الترحيب (زر النسخ).')),
+      h('div', { style: 'display:grid;gap:10px' },
+        h('button', { class: 'btn ok', style: 'padding:14px', onclick: function () { saveVcf(L); } }, '📇 حفظ الأرقام في جهات الاتصال'),
+        h('button', { class: 'btn', onclick: function () { copyText(L.map(function (c) { return '+' + waNum(c.num); }).join('\n'), 'نُسخت ' + L.length + ' أرقام'); } }, 'نسخ الأرقام فقط'),
+        h('button', { class: 'btn', onclick: function () { copyText(gname, 'نُسخ اسم المجموعة'); } }, 'نسخ اسم المجموعة: ' + gname),
+        text ? h('button', { class: 'btn', onclick: function () { copyText(fillMsg(text, { m: { display_name: 'أولياء الأمور' }, e: L[0].e }), 'نُسخت الرسالة'); } }, 'نسخ نص الرسالة') : null)));
+  }
+
   /* ---------- السحب ---------- */
   function infoRow(r, n) {
     var img = r.m.photoUrl ? h('img', { class: 'ph', src: r.m.photoUrl, alt: '', draggable: 'false', decoding: 'async' }) : h('div', { class: 'ph noimg' }, initials(r.m.display_name) || '👤');
-    var card = h('div', { class: 'person', onclick: function () { details(r); } }, h('span', { class: 'rn' }, n), h('div', { class: 'av' }, img),
+    var card = h('div', { class: 'person' }, h('span', { class: 'rn' }, n), h('div', { class: 'av' }, img),
       h('div', { class: 'nm' }, h('b', null, r.m.display_name), h('small', null, [age(r.m.birth_date), view.squad ? '' : sqName(r.e.squad_id), r.m.phone || ''].filter(Boolean).join(' · ')), h('div', null, h('span', { class: 'st' }, ADM[st(r.e)] + (r.m.registered_at ? ' · سُجّل ' + dmy(r.m.registered_at) : '')), subChip(r.e))));
+    var lp = { fired: false }; longPress(card, r, lp); card.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    card.onclick = function () { if (lp.fired) { lp.fired = false; return; } details(r); };
     return h('div', { class: 'swrap' }, card);
   }
   function swipeRow(r, ds, first, num) {
@@ -505,6 +755,7 @@ a{color:#9cc4ff}
     var go = h('button', { class: 'go ' + (inside ? 'out' : 'in'), 'aria-label': inside ? 'تسجيل خروج' : 'تسجيل دخول', onclick: function (ev) { ev.stopPropagation(); mark(r.m, r.e, inside ? 'out' : 'in', 'manual'); } }, inside ? 'خروج' : 'دخول');
     var card = h('div', { class: 'person' + (flashKey === key ? ' flash' : '') + (first && !lsGet('gw.hint') ? ' peek' : '') }, h('span', { class: 'rn' }, num || ''), ring, h('div', { class: 'nm' }, h('b', null, r.m.display_name), h('small', null, [age(r.m.birth_date), view.squad ? '' : sqName(r.e.squad_id)].filter(Boolean).join(' · ')), h('div', null, state, day ? h('button', { class: 'xb', 'aria-label': 'إلغاء آخر تسجيل', title: 'إلغاء آخر تسجيل', onclick: function (ev) { ev.stopPropagation(); var l = lastEvToday(r.m, r.e); if (l) cancelEv(l); } }, ic('x')) : null), h('div', null, subChip(r.e), capBadge(r.e), kitChip(r.e))), go);
     wrap.appendChild(bg); wrap.appendChild(card);
+    var lp = { fired: false }; longPress(card, r, lp);
     var sx = 0, sy = 0, dx = 0, drag = false, moved = false, id = null;
     card.addEventListener('pointerdown', function (ev) { if (ev.button > 0 || (ev.target.closest && ev.target.closest('.go'))) return; sx = ev.clientX; sy = ev.clientY; dx = 0; drag = true; moved = false; id = ev.pointerId; card.classList.remove('peek'); });
     card.addEventListener('pointermove', function (ev) {
@@ -515,6 +766,7 @@ a{color:#9cc4ff}
     });
     function end(ev) {
       if (!drag || (ev && ev.pointerId !== id)) return; drag = false; card.classList.remove('drag'); dragging = false;
+      if (lp.fired) { lp.fired = false; dx = 0; card.style.transform = ''; return; }
       var d = dx; card.style.transform = ''; bg.className = 'bg'; bg.children[0].textContent = ''; bg.children[1].textContent = '';
       if (moved) { if (d > 90) mark(r.m, r.e, 'in', 'manual'); else if (d < -90) mark(r.m, r.e, 'out', 'manual'); else if (deferred) { deferred = false; render(); } return; }
       if (ev && ev.type === 'pointerup') { if (ev.target && ev.target.closest && ev.target.closest('.xb')) return; details(r); }
@@ -544,14 +796,14 @@ a{color:#9cc4ff}
     var clubName = (PKG.club && (PKG.club.name_ar || PKG.club.name)) || 'Golden Wolf';
     UI.sy = h('div', { class: 'sy' }); badge();
     clear(UI.top).appendChild(h('div', { class: 'row' }, logoEl(), h('div', { class: 'ttl' }, h('em', null, clubName),
-      h('button', { class: 'sess', onclick: editSession, 'aria-label': 'تعديل عنوان الحصة' }, h('span', null, sessLabel(todayStr())), ic('pen')), h('small', null, dmy(todayStr()) + ' · ' + (ST.device || ''))),
+      h('button', { class: 'sess', onclick: editSession, 'aria-label': 'تعديل عنوان الحصة' }, h('span', null, sessLabel(todayStr())), ic('pen')), h('small', null, dmy(todayStr()) + ' · ' + (ST.device || ''), COACH ? h('span', { class: 'coachtag' }, 'مدرب: ' + (PKG.role.name || '')) : null)),
       h('div', { class: 'sp' }), UI.sy, h('button', { class: 'iconbtn', 'aria-label': 'المزيد', onclick: moreSheet }, ic('more'))));
     if (stats) UI.top.appendChild(stats);
   }
   function renderNav() {
     var pn = pending();
     var it = function (k, icon, label, n) { return h('button', { class: view.page === k ? 'on' : '', onclick: function () { if (view.page !== k) { view.page = k; view.status = ''; window.scrollTo(0, 0); render(); } } }, ic(icon), label, n ? h('span', { class: 'n' }, n) : null); };
-    clear(UI.nav).appendChild(it('att', 'att', 'الحضور')); UI.nav.appendChild(it('debt', 'debt', 'الديون')); UI.nav.appendChild(it('coach', 'coach', 'المدربون'));
+    clear(UI.nav).appendChild(it('att', 'att', 'الحضور')); if (!COACH) { UI.nav.appendChild(it('debt', 'debt', 'الديون')); UI.nav.appendChild(it('coach', 'coach', 'المدربون')); }
     UI.nav.appendChild(h('button', { onclick: moreSheet }, ic('more'), 'المزيد', !SY.on && pn ? h('span', { class: 'n' }, pn) : null));
   }
   function warnBox() {
@@ -563,6 +815,7 @@ a{color:#9cc4ff}
   function render() {
     if (!PKG) return; if (!UI) mount(); if (dragging) { deferred = true; return; } deferred = false;
     renderNav(); warnBox();
+    if (COACH && view.page !== 'att') view.page = 'att';
     if (view.page === 'debt') return renderDebt();
     if (view.page === 'coach') return renderCoach();
     UI.srch.style.display = ''; UI.flbl.style.display = 'none'; UI.fchips.style.display = view.fo || view.pay ? '' : 'none'; UI.qa.style.display = ''; UI.guests.style.display = '';
@@ -578,11 +831,11 @@ a{color:#9cc4ff}
     ['in', 'reserve', 'wait'].forEach(function (k) { UI.adm.appendChild(h('button', { class: view.adm === k ? 'on' : '', onclick: function () { view.adm = k; view.status = ''; render(); } }, ADM[k], h('small', null, cnt[k]))); });
     var base = []; PKG.members.forEach(function (m) { m.enrollments.forEach(function (e) { if (e.is_current && st(e) === view.adm && (!view.squad || String(e.squad_id) === view.squad)) base.push(e); }); });
     clear(UI.fchips);
-    [['', 'الكل'], ['rest', 'عليهم متبقٍّ'], ['none', 'لم يدفعوا شيئًا'], ['paid', 'مسدَّدون'], ['nokit', 'ينقصهم صنف بذلة'], ['cap', 'استلموا القبعة 🏊'], ['nocap', 'بلا قبعة']].forEach(function (f) {
+    [['', 'الكل'], ['rest', 'عليهم متبقٍّ'], ['none', 'لم يدفعوا شيئًا'], ['paid', 'مسدَّدون'], ['nokit', 'ينقصهم صنف بذلة'], ['cap', 'استلموا القبعة 🏊'], ['nocap', 'بلا قبعة']].filter(function (f) { return !COACH || ['', 'nokit', 'cap', 'nocap'].indexOf(f[0]) >= 0; }).forEach(function (f) {
       var c = 0; if (f[0]) for (var i = 0; i < base.length; i++) if (payOk(base[i], f[0])) c++;
       UI.fchips.appendChild(h('button', { class: 'chip f' + (view.pay === f[0] ? ' on' : ''), onclick: function () { view.pay = f[0]; render(); } }, f[1], f[0] ? h('small', null, c) : null));
     });
-    clear(UI.qa).appendChild(h('button', { class: 'btn', onclick: function () { guestSheet(null); } }, ic('user'), 'زائر')); UI.qa.appendChild(h('button', { class: 'btn' + (view.fo || view.pay ? ' pri' : ''), id: 'ftoggle', onclick: function () { view.fo = !(view.fo || view.pay); if (!view.fo) view.pay = ''; render(); } }, 'تصفية ' + (view.fo || view.pay ? '▴' : '▾')));
+    clear(UI.qa).appendChild(h('button', { class: 'btn', onclick: function () { guestSheet(null); } }, ic('user'), 'زائر')); UI.qa.appendChild(h('button', { class: 'btn', onclick: function () { WA.init = false; waComposer(); } }, '💬 رسائل')); UI.qa.appendChild(h('button', { class: 'btn' + (view.fo || view.pay ? ' pri' : ''), id: 'ftoggle', onclick: function () { view.fo = !(view.fo || view.pay); if (!view.fo) view.pay = ''; render(); } }, 'تصفية ' + (view.fo || view.pay ? '▴' : '▾')));
     var tile = function (cls, key, n, label) { return h('button', { class: 'stat ' + cls + (view.status === key ? ' act' : ''), onclick: function () { view.status = view.status === key ? '' : key; render(); } }, h('b', null, n), label); };
     var capNow = view.squad ? sqCap(Number(view.squad)) : null;
     if (view.adm === 'in') renderTop(h('div', { class: 'stats' }, tile('in', 'in', inside, 'بالداخل'), tile('out', 'out', left, 'غادروا'), tile('no', 'no', noEntry, 'لم يدخلوا')));
@@ -707,9 +960,10 @@ a{color:#9cc4ff}
         h('span', null, 'آخر تصدير'), h('div', null, ST.lastExportAt ? dmy(ST.lastExportAt.slice(0, 10)) + ' ' + hm(ST.lastExportAt) : 'لم يُصدَّر'))),
       h('div', { style: 'display:grid;gap:10px;margin-top:12px' },
         h('button', { class: 'btn pri', onclick: function () { exportAtt(); } }, ic('exp'), ' تصدير ملف الحضور' + (pending() ? ' (' + pending() + ' جديد)' : '')),
+        h('button', { class: 'btn', onclick: function () { WA.init = false; waComposer(); } }, '💬 رسائل واتساب للأولياء'),
         h('button', { class: 'btn', onclick: function () { var cur = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', cur); lsSet('gw.theme', cur); var m = document.querySelector('meta[name=theme-color]'); if (m) m.setAttribute('content', cur === 'light' ? '#f4f1e9' : '#0b0b0e'); } }, 'تبديل المظهر (فاتح / داكن)'),
         h('button', { class: 'btn', onclick: function () { askText('اسم هذا الجهاز', ST.device, 'حفظ', function (v) { ST.device = v.slice(0, 40); save(); render(); }); } }, 'تغيير اسم الجهاز'),
-        h('button', { class: 'btn', onclick: function () { lsDel('gw.pw'); location.reload(); } }, 'إعادة تحميل البيانات (بعد تحديثها)'),
+        h('button', { class: 'btn', onclick: function () { lsDel('gw.pw'); location.reload(); } }, 'إعادة تحميل البيانات / تغيير الحساب'),
         older ? h('button', { class: 'btn bad', onclick: function () { askYes('مسح التسجيلات القديمة؟', 'يُمسح ' + older + ' تسجيلًا قبل اليوم سبق تصديرها. لا تمسح إلا بعد التأكد أن ملف الحضور وصل إلى البرنامج.', 'نعم، امسح', function () { oldKeys.forEach(function (k) { delete ST.store[k]; }); derive(); save(); render(); toast('تم المسح'); }, true); } }, 'مسح التسجيلات القديمة المُصدَّرة (' + older + ')') : null)));
   }
 
@@ -717,17 +971,18 @@ a{color:#9cc4ff}
   function grp(title, body) { return h('div', { class: 'grp' }, h('h3', null, title), body); }
   function mEl(c) { return h('b', null, h('bdi', null, moneyNum(c)), h('i', null, PKG.currency || 'دج')); }
   function debtBanner(m, e) {
+    if (COACH) return null;
     var tot = 0, parts = []; m.enrollments.forEach(function (x) { if (isAct(x) && x.fee > 0 && x.remaining > 0) { tot += x.remaining; if (x.id !== e.id) parts.push(x.branch + ' — ' + sqName(x.squad_id) + ': ' + money(x.remaining)); } });
     if (e.fee <= 0) return null;
     if (e.remaining <= 0 && !tot) return h('div', { class: 'dbn ok' }, 'مسدَّد بالكامل ✓');
     return h('div', { class: 'dbn rest' }, e.remaining > 0 ? 'المتبقي عليه: ' + money(e.remaining) + ' من ' + money(e.fee) : 'اشتراك هذا الفوج مسدَّد ✓', parts.length ? h('div', { style: 'font-size:13.5px' }, 'وعليه أيضًا — ' + parts.join('، ')) : null);
   }
   function details(r, tab) {
-    var m = r.m, e = r.e; view.tab = tab || view.tab || 'info';
+    var m = r.m, e = r.e; view.tab = tab || view.tab || 'info'; if (COACH && view.tab === 'sub') view.tab = 'info';
     var others = m.enrollments.filter(function (x) { return x.is_current && x.id !== e.id; });
     var ev = D.events.filter(function (x) { return x.person_id === m.person_id && x.at.slice(0, 10) === todayStr(); });
     var day = dayState()[m.person_id + ':' + (e.squad_id || 0)];
-    var tel = function (n) { return n ? h('a', { class: 'call', href: 'tel:' + n }, ic('phone'), n) : '—'; };
+    var tel = function (n) { return n ? h('button', { class: 'call', 'aria-label': 'اتصال أو واتساب', onclick: function () { contactSheet(m, n, r); } }, ic('phone'), n) : '—'; };
     var pct = e.fee > 0 ? Math.max(0, Math.min(100, Math.round(e.paid * 100 / e.fee))) : 0;
     var ov = null;
     function reopen(t) { if (ov) ov.remove(); details(r, t); }
@@ -768,7 +1023,7 @@ a{color:#9cc4ff}
           h('button', { class: 'tg' + (on ? ' on' : ''), 'aria-label': it.name, 'aria-pressed': on ? 'true' : 'false', onclick: function () { setItem(m, e, it, !on); reopen('kit'); } }));
       })) : h('div', { class: 'mut' }, 'لا أصناف بذلة لهذا الفرع.')),
       h('div', { class: 'mut', style: 'font-size:13px;margin-top:8px;line-height:1.8' }, 'تُحفظ تغييراتك على هذا الجهاز وتنتقل إلى البرنامج عند «تصدير» ثم الاستيراد.'));
-    var tabsEl = h('div', { class: 'tabs2' }, [['info', 'المعلومات'], ['sub', 'الاشتراك'], ['kit', 'البذلة']].map(function (t) { return h('button', { class: view.tab === t[0] ? 'on' : '', onclick: function () { reopen(t[0]); } }, t[1]); }));
+    var tabsEl = h('div', { class: 'tabs2' }, (COACH ? [['info', 'المعلومات'], ['kit', 'البذلة']] : [['info', 'المعلومات'], ['sub', 'الاشتراك'], ['kit', 'البذلة']]).map(function (t) { return h('button', { class: view.tab === t[0] ? 'on' : '', onclick: function () { reopen(t[0]); } }, t[1]); }));
     ov = sheet(h('div', null,
       h('div', { class: 'hero' }, m.photoUrl ? h('img', { class: 'big', src: m.photoUrl, alt: '' }) : h('div', { class: 'big noimg' }, initials(m.display_name) || '👤'),
         h('div', { class: 'nm' }, h('h2', null, m.display_name), h('div', { class: 'mut', style: 'margin:4px 0 6px' }, e.branch + ' — ' + sqName(e.squad_id)), h('div', null, subChip(e), capBadge(e), kitChip(e)),
